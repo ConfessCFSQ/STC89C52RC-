@@ -1,0 +1,76 @@
+C51 COMPILER V9.60.7.0   MATRIXLED                                                         08/30/2025 21:33:58 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MATRIXLED
+OBJECT MODULE PLACED IN .\Objects\MatrixLED.obj
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE MatrixLED.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\M
+                    -atrixLED.lst) OBJECT(.\Objects\MatrixLED.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          
+   4          #define MatrixLED_Row   P0
+   5          
+   6          sbit SER = P3^4;
+   7          sbit SRCLK = P3^6;
+   8          sbit RCK = P3^5; //RCLK
+   9          
+  10          
+  11          
+  12          
+  13          void MartixLED_74HC595_(unsigned char Row_Byte)
+  14          {
+  15   1              unsigned char i;
+  16   1              for(i = 0; i < 8; i++)
+  17   1              {
+  18   2                      SER = Row_Byte & (0x80 >> i);//1000 0000
+  19   2                      SRCLK = 1;
+  20   2                      SRCLK = 0;
+  21   2              }
+  22   1              RCK = 1;
+  23   1              RCK = 0;
+  24   1      
+  25   1      }
+  26          
+  27          //Column行 Row列
+  28          void MatrixLED_Show(unsigned char Column, Row)
+  29          {
+  30   1              MartixLED_74HC595_(Row);
+  31   1      //      if(Column == 0){P0_7 = 0;}
+  32   1      //      if(Column == 1){P0_6 = 0;}
+  33   1      //      if(Column == 2){P0_5 = 0;}
+  34   1      //      if(Column == 3){P0_4 = 0;}
+  35   1      //      if(Column == 4){P0_3 = 0;}
+  36   1      //      if(Column == 5){P0_2 = 0;}
+  37   1      //      if(Column == 6){P0_1 = 0;}
+  38   1      //      if(Column == 7){P0_0 = 0;}
+  39   1              MatrixLED_Row = ~(0x80 >> Column);//1000 0000
+  40   1              
+  41   1              //消影
+  42   1              Delay(1);
+  43   1              MatrixLED_Row = 0xFF;
+  44   1      }
+  45          
+  46          void MatrixLED_Init()
+  47          {
+  48   1              SRCLK = 0;
+  49   1              RCK = 0;
+  50   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+C51 COMPILER V9.60.7.0   MATRIXLED                                                         08/30/2025 21:33:58 PAGE 2   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,64 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              08/30/2025 23:30:23 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main.l
+                    -st) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "MatrixLED.h"
+   3          #include "Delay.h"
+   4          
+   5          unsigned char code Animation[] = {
+   6                  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+   7                  0x3C,0x42,0x42,0x24,0x00,0x00,0x40,0x7E,
+   8                  0x48,0x58,0x00,0x00,0x24,0x52,0x4A,0x24,
+   9                  0x00,0x00,0x38,0x4C,0x44,0x3A,0x00,0x00,
+  10                  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  11          };
+  12          
+  13          void main()
+  14          {
+  15   1              unsigned char i, Offset = 0, Count = 0;
+  16   1              MatrixLED_Init();
+  17   1              while(1)
+  18   1              {
+  19   2                      
+  20   2                      for(i = 0; i <= 7; i++)
+  21   2                      {
+  22   3                              MatrixLED_Show(i, Animation[i + Offset]);
+  23   3                      }
+  24   2                      
+  25   2                      //Count“手动延时”
+  26   2                      //Offset偏移
+  27   2                      
+  28   2                      Count++;
+  29   2                      if(Count >= 10)
+  30   2                      {
+  31   3                              Count = 0;
+  32   3                              Offset++;
+  33   3                              if(Offset > 32)
+  34   3                              {
+  35   4                                      Offset = 0;
+  36   4                              }
+  37   3                      }
+  38   2                      
+  39   2              }
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =     40    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
