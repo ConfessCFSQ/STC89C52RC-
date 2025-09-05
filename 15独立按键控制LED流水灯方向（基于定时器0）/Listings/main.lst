@@ -1,0 +1,79 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              08/28/2025 00:12:18 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main.l
+                    -st) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Timer0.h"
+   3          #include <INTRINS.H>
+   4          #include "Key.h"
+   5          
+   6          unsigned char KeyNum;
+   7          unsigned char LEDMode;
+   8          
+   9          void main()
+  10          {
+  11   1              Timer0_Init();
+  12   1              P2 = 0xFE;
+  13   1              while(1)
+  14   1              {
+  15   2                      KeyNum = KeyNumber();
+  16   2                      if(KeyNum)
+  17   2                      {
+  18   3                              if(KeyNum == 1)
+  19   3                              {
+  20   4                                      LEDMode = 0;
+  21   4                              }
+  22   3                              if(KeyNum == 2)
+  23   3                              {
+  24   4                                      LEDMode = 1;
+  25   4                              }
+  26   3                      }
+  27   2              }
+  28   1      }
+  29          
+  30          
+  31          void Timer0_Rountine() interrupt 1
+  32          {
+  33   1              static unsigned int T0count;
+  34   1              
+  35   1              //低8位寄存器赋初始值TL0：
+  36   1              TL0 = 0x66;
+  37   1              //高8位寄存器赋初始值TH0:
+  38   1              TH0 = 0xFC;
+  39   1              T0count++;
+  40   1                      
+  41   1              if(T0count >= 500)
+  42   1              {
+  43   2                      T0count = 0;
+  44   2                      if(LEDMode == 0)
+  45   2                      {
+  46   3                              P2 = _cror_(P2, 1);
+  47   3                      }
+  48   2                      if(LEDMode == 1)
+  49   2                      {
+  50   3                              P2 = _crol_(P2, 1);
+  51   3                      }
+  52   2              }
+  53   1      }
+
+C51 COMPILER V9.60.7.0   MAIN                                                              08/28/2025 00:12:18 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    115    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
